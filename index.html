@@ -38,6 +38,7 @@
     <script>
         let pieces;
         let field;
+        let ctrl;
         let air;
         let cnt;
         let time;
@@ -57,7 +58,7 @@
                 this.touchair = false;
                 field.appendChild(p);
                 this.e = document.getElementById(id);
-                this.e.onclick=()=>{
+                this.e.onclick=e=>{
                     detecttouch();
                     if(this.touchair){
                         let ox = this.x;
@@ -105,9 +106,11 @@
             if(cnt == 0){
                 memhand();
             }
+            
             switch(e.key){
                     case 'w':
                     case 'ArrowUp':
+                        ctrl="↑";
                         if(detecttouch()[0]!=45){
                             pieces[detecttouch()[0]].e.click();
                             cnt++;
@@ -115,6 +118,7 @@
                         break;
                     case 'a':
                     case 'ArrowLeft':
+                        ctrl="←";
                         if(detecttouch()[1]!=45){
                             pieces[detecttouch()[1]].e.click();
                             cnt++;
@@ -122,6 +126,7 @@
                         break;
                     case 's':
                     case 'ArrowDown':
+                        ctrl="↓";
                         if(detecttouch()[2]!=45){
                             pieces[detecttouch()[2]].e.click();
                             cnt++;
@@ -129,6 +134,7 @@
                         break;
                     case 'd':
                     case 'ArrowRight':
+                        ctrl="→";
                         if(detecttouch()[3]!=45){
                             pieces[detecttouch()[3]].e.click();
                             cnt++;
@@ -136,11 +142,16 @@
                         break;
                 }
             document.querySelector("#cnt").innerText = cnt;
+            document.querySelector("#ctrl").innerText = ctrl;
         }
         function load(){
             document.onselectstart=()=>false;
             field = document.querySelector(".field");
             document.addEventListener('keydown',downkey);
+            document.addEventListener('keyup',e=>{
+                ctrl="";
+            document.querySelector("#ctrl").innerText = ctrl;
+            });
             solve();
         }
         function scramble(){
@@ -152,6 +163,7 @@
                 }
                 downkey(o);
             }
+            ctrl = 0;
             cnt=0;
             time = 0;
             document.querySelector("#cnt").innerText = 0;
@@ -160,53 +172,24 @@
         function memhand(){
             document.querySelector("#time").innerText = time / 100;
             time++;
-            if(pieces[0].x == 0 && 
-               pieces[0].y == 0){
-            if(pieces[1].x == 1 && 
-               pieces[1].y == 0){
-            if(pieces[2].x == 2 && 
-               pieces[2].y == 0){
-            if(pieces[3].x == 3 && 
-               pieces[3].y == 0){
-            if(pieces[4].x == 0 && 
-               pieces[4].y == 1){
-            if(pieces[5].x == 1 && 
-               pieces[5].y == 1){
-            if(pieces[6].x == 2 && 
-               pieces[6].y == 1){
-            if(pieces[7].x == 3 && 
-               pieces[7].y == 1){
-            if(pieces[8].x == 0 && 
-               pieces[8].y == 2){
-            if(pieces[9].x == 1 && 
-               pieces[9].y == 2){
-            if(pieces[10].x == 2 && 
-               pieces[10].y == 2){
-            if(pieces[11].x == 3 && 
-               pieces[11].y == 2){
-            if(pieces[12].x == 0 && 
-               pieces[12].y == 3){
-            if(pieces[13].x == 1 && 
-               pieces[13].y == 3){
-            if(pieces[14].x == 2 && 
-               pieces[14].y == 3){
+            if(pieces[0].x == 0 && pieces[0].y == 0){
+            if(pieces[1].x == 1 && pieces[1].y == 0){
+            if(pieces[2].x == 2 && pieces[2].y == 0){
+            if(pieces[3].x == 3 && pieces[3].y == 0){
+            if(pieces[4].x == 0 && pieces[4].y == 1){
+            if(pieces[5].x == 1 && pieces[5].y == 1){
+            if(pieces[6].x == 2 && pieces[6].y == 1){
+            if(pieces[7].x == 3 && pieces[7].y == 1){
+            if(pieces[8].x == 0 && pieces[8].y == 2){
+            if(pieces[9].x == 1 && pieces[9].y == 2){
+            if(pieces[10].x == 2 && pieces[10].y == 2){
+            if(pieces[11].x == 3 && pieces[11].y == 2){
+            if(pieces[12].x == 0 && pieces[12].y == 3){
+            if(pieces[13].x == 1 && pieces[13].y == 3){
+            if(pieces[14].x == 2 && pieces[14].y == 3){
             alert("Clear!");
             return;
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
-            }
+            }}}}}}}}}}}}}}}
             setTimeout(memhand,10);
         }
         function solve(){
@@ -236,6 +219,7 @@
         <button onclick="solve()">パズルを揃える</button>
     </div>
     <div class="space">
+        <p>操作：<span id="ctrl"></span></p>
         <p>回数：<span id="cnt"></span></p>
         <p>タイム：<span id="time"></span></p>
     </div>
